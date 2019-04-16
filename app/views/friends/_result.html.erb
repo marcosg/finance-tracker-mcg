@@ -1,0 +1,30 @@
+<div class="results-block">
+  <%= render 'layouts/messages' %>
+</div>
+<% if @users && @users.size > 0 %>
+  <div class="card bg-light card-body results-block">
+    <table class="search-results-table col-md-12">
+
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td class="pr-3"><strong>Name:</strong> <%= user.full_name %></td>
+          <td class="pr-3"><strong>Email:</strong> <%= user.email %></td>
+          <td><strong>Profile:</strong> <%= link_to "View Profile", user_path(user),
+                                                    class: "button-xs" %>
+            <% if current_user.not_friends_with?(user.id) %>
+              <%= link_to "Add as my friend",
+                          add_friend_path(user: current_user, friend: user),
+                          class: "button-xs", method: :post %>
+            <% else %>
+                <span class="label label-primary">
+                  You are friends
+                </span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
